@@ -40,21 +40,11 @@ class ItsmUserSkill(MycroftSkill):
         itsm_user_intent = IntentBuilder("itsmuserintent"). \
             require("ItsmUserKeyword").build()
         self.register_intent(itsm_user_intent, self.handle_itsm_user_intent)
-
-        #how_are_you_intent = IntentBuilder("HowAreYouIntent"). \
-        #    require("HowAreYouKeyword").build()
-        #self.register_intent(how_are_you_intent,
-        #                     self.handle_how_are_you_intent)
-
-        #hello_world_intent = IntentBuilder("HelloWorldIntent"). \
-        #    require("HelloWorldKeyword").build()
-        #self.register_intent(hello_world_intent,
-        #                     self.handle_hello_world_intent)
-
+        
     def handle_itsm_user_intent(self, message):
-        url = 'https://dev22921.service-now.com/api/now/table/sys_user/66e1f49edb5d13006b72712ebf9619c2?sysparm_display_value=true&sysparm_exclude_reference_link=true&sysparm_fields=name'
+        url = 'https://dev22921.service-now.com/api/now/table/incident?sysparm_query=assigned_to%3D66e1f49edb5d13006b72712ebf9619c2%5Epriority%3D1&sysparm_display_value=true&sysparm_exclude_reference_link=true&sysparm_fields=caller_id%2Cshort_description%2Cstate'
         user = '531834'
-        pwd = 'Anita!2345'
+        pwd = 'Welcome!2345'
         headers = {"Content-Type":"application/json","Accept":"application/json"}
         # Do the HTTP request
         response = requests.get(url, auth=(user, pwd), headers=headers )
@@ -64,8 +54,16 @@ class ItsmUserSkill(MycroftSkill):
             exit()
         # Decode the JSON response into a dictionary and use the data
         data = response.json()
-        name = data['result']['name']
-        self.speak("Your name in your ServiceNow Instance is {}".format(name))
+        length = len(data['result'])
+        x = 0
+        r = data['result']
+        #number = r['result']['number']
+        detail = ""
+        for x in range(0, length):
+            detail += "Your incident {} is {} having caller as {} with ShortDescription {} and currently work is {} ".format(x+1,  r[x]['number'], r[x]['caller_id'],r[x]['short_description'], r[x]['state'])
+            x += 1
+        self.speak("You have {} incidents with Priorty 1".format(length))
+        self.speak(detail)
         
 
     def stop(self):
