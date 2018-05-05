@@ -42,7 +42,7 @@ class ItsmUserSkill(MycroftSkill):
         self.register_intent(itsm_user_intent, self.handle_itsm_user_intent)
         
     def handle_itsm_user_intent(self, message):
-        url = 'https://dev22921.service-now.com/api/now/table/incident?sysparm_query=assigned_to%3D66e1f49edb5d13006b72712ebf9619c2%5Epriority%3D1&sysparm_display_value=true&sysparm_exclude_reference_link=true&sysparm_fields=caller_id%2Cshort_description%2Cstate'
+        url = 'https://dev22921.service-now.com/api/now/table/incident?sysparm_query=assigned_to%3D66e1f49edb5d13006b72712ebf9619c2%5Epriority%3D1&sysparm_display_value=true&sysparm_exclude_reference_link=true&sysparm_fields=caller_id%2Cshort_description%2Cstate%2Cnumber'
         user = '531834'
         pwd = 'Welcome!2345'
         headers = {"Content-Type":"application/json","Accept":"application/json"}
